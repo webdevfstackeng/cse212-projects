@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public static class ArraysTester {
     /// <summary>
     /// Entry point for the tests
@@ -32,14 +34,28 @@ public static class ArraysTester {
     /// integer greater than 0.
     /// </summary>
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
-    private static double[] MultiplesOf(double number, int length)
-    {
-        // TODO Problem 1 Start
+    /// 
+    /* Below follows a function to produce a list of size 'length' starting with 'number' followed by multiples of 'number' */
+
+    // TODO Problem 1 Start
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return new double[0]; // replace this return statement with your own
+        // Plan for producing a list of a given size starting with a number:
+        // Declare an instance of an array of type double.
+        // Use a for loop to iterate through the length of the array as we populate the array with computed multiples.
+        // Return the array of multiples to the calling function.
+    private static double[] MultiplesOf(double number, int length) 
+    {
+        
+        double[] multiples = new double[length]; // Initialize the array.
+        
+        for (int i = 1; i <= length; i++)     // Iterate through the legth of the array.
+        {
+            multiples[i - 1] = i * number;    // Computing and populate the array with the multiples the number elements.
+        }
+        return multiples; 
     }
     
     /// <summary>
@@ -57,5 +73,27 @@ public static class ArraysTester {
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
+        // Plan for rotating data to the right by a given amount:
+        // Initialize the integer array.
+        // Make a copy of data array.
+        // Loop through the original list
+        // For each data element in the index, calculate the new index after rotation
+
+        if(amount % data.Count == 0) // Check if rotating by the given amount will not change the list.
+            return;
+        
+        int[] result = new int[data.Count];   // Initialize the integer array.
+        data.CopyTo(result, 0);   // Make a copy of data array.
+
+        for(int i = 0; i < data.Count; i++)
+        {
+            int index = (i + amount) % data.Count; // loop through the data array, calculating the new index after rotation
+            data[index] = result[i];    // Assign the element at the calculated index in the data list to the corresponding element from the result array.
+        }
     }
+
 }
+
+
+
+
