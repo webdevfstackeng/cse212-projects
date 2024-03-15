@@ -30,13 +30,17 @@ public class TakingTurnsQueue {
     /// if the queue is empty.
     /// </summary>
     public void GetNextPerson() {
-        if (_people.IsEmpty())
+        if (_people.IsEmpty())  
             Console.WriteLine("No one in the queue.");
         else {
             Person person = _people.Dequeue();
             if (person.Turns > 1) {
                 person.Turns -= 1;
                 _people.Enqueue(person);
+            }
+            if(person.Turns <= 0) // To cater for no more turns left or an infinite number of turns
+            {
+                _people.Enqueue(person);  // Add the remaining turns and forever person names
             }
 
             Console.WriteLine(person.Name);

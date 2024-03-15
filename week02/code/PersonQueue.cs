@@ -11,7 +11,7 @@ public class PersonQueue {
     /// </summary>
     /// <param name="person">The person to add</param>
     public void Enqueue(Person person) {
-        _queue.Insert(0, person);
+        _queue.Insert(_queue.Count, person);  // replaced front of queue (0) with length of queue (_queue.Count)
     }
 
     public Person Dequeue() {

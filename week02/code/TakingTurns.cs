@@ -15,7 +15,8 @@
         // Console.WriteLine(players);    // This can be un-commented out for debug help
         while (players.Length > 0)
             players.GetNextPerson();
-        // Defect(s) Found: 
+        // Defect(s) Found: Code is not enqueueing names from the back. 
+        // Fix: Add code as noted in comments in GetNextPerson and Enqueue methods to cater for enqueueing the remaining turns 
 
         Console.WriteLine("---------");
 
@@ -38,8 +39,8 @@
         while (players.Length > 0)
             players.GetNextPerson();
 
-        // Defect(s) Found: 
-
+        // Defect(s) Found: Code is not enqueueing names from the back.
+        // Fix: Add code as noted in comments in GetNextPerson and Enqueue methods to cater for enqueueing the remaining turns   
         Console.WriteLine("---------");
 
         // Test 3
@@ -56,7 +57,8 @@
             players.GetNextPerson();
             // Console.WriteLine(players);
         }
-        // Defect(s) Found: 
+        // Defect(s) Found: Code is not enqueueing names from the back. 
+        // Fix: Add code as noted in comments in GetNextPerson and Enqueue methods to cater for enqueueing the remaining turns 
 
         Console.WriteLine("---------");
 
@@ -73,7 +75,8 @@
             players.GetNextPerson();
             // Console.WriteLine(players);
         }
-        // Defect(s) Found: 
+        // Defect(s) Found: Code is not enqueueing names from the back. 
+        // Fix: Added this if statement: if(person.Turns <= 0) {_people.Enqueue(person);} to Enqueue and GetNextPerson methods to cater for no more turns left or an infinite number of turns  
 
         Console.WriteLine("---------");
 
@@ -83,6 +86,6 @@
         Console.WriteLine("Test 5");
         players = new TakingTurnsQueue();
         players.GetNextPerson();
-        // Defect(s) Found:
+        // Defect(s) Found: No defects found.
     }
 }
