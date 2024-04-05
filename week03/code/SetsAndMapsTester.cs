@@ -1,9 +1,11 @@
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 public static class SetsAndMapsTester {
     public static void Run() {
         // Problem 1: Find Pairs with Sets
-        Console.WriteLine("\n=========== Finding Pairs TESTS ===========");
+        Console.WriteLine("\n=========== Finding Pairs TESTS ==========");
         DisplayPairs(new[] { "am", "at", "ma", "if", "fi" });
         // ma & am
         // fi & if
@@ -25,7 +27,7 @@ public static class SetsAndMapsTester {
         // 32 & 23
         // 94 & 49
         // 31 & 13
-
+    
         // Problem 2: Degree Summary
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== Census TESTS ===========");
@@ -35,7 +37,8 @@ public static class SetsAndMapsTester {
         // [Masters, 1723], [9th, 514], [Some-college, 7291], [Assoc-acdm, 1067],
         // [Assoc-voc, 1382], [7th-8th, 646], [Doctorate, 413], [Prof-school, 576],
         // [5th-6th, 333], [10th, 933], [1st-4th, 168], [Preschool, 51], [12th, 433]}
-
+    
+        
         // Problem 3: Anagrams
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== Anagram TESTS ===========");
@@ -49,12 +52,13 @@ public static class SetsAndMapsTester {
         Console.WriteLine(IsAnagram("tom marvolo riddle", "i am lord voldemort")); // true
         Console.WriteLine(IsAnagram("Eleven plus Two", "Twelve Plus One")); // true
         Console.WriteLine(IsAnagram("Eleven plus One", "Twelve Plus One")); // false
-
+        
         // Problem 4: Maze
         Console.WriteLine("\n=========== Maze TESTS ===========");
         Dictionary<ValueTuple<int, int>, bool[]> map = SetupMazeMap();
         var maze = new Maze(map);
         maze.ShowStatus(); // Should be at (1,1)
+        maze.MoveLeft();
         maze.MoveUp(); // Error
         maze.MoveLeft(); // Error
         maze.MoveRight();
@@ -72,9 +76,10 @@ public static class SetsAndMapsTester {
         maze.MoveRight();
         maze.MoveDown();
         maze.MoveDown();
-        maze.MoveRight();
+        maze.MoveRight();  // Error  
+        maze.MoveUp();  // Error 
         maze.ShowStatus(); // Should be at (6,6)
-
+        /*
         // Problem 5: Earthquake
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== Earthquake TESTS ===========");
@@ -87,8 +92,9 @@ public static class SetsAndMapsTester {
         // 9km S of Idyllwild, CA - Mag 0.25
         // 14km SW of Searles Valley, CA - Mag 0.36
         // 4km SW of Volcano, Hawaii - Mag 1.99
+        */
     }
-
+    
     /// <summary>
     /// The words parameter contains a list of two character 
     /// words (lower case, no duplicates). Using sets, find an O(n) 
@@ -107,12 +113,22 @@ public static class SetsAndMapsTester {
     /// that there were no duplicates) and therefore should not be displayed.
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
-    private static void DisplayPairs(string[] words) {
+    //*/
+    private static void DisplayPairs(string[] words) {          //private removed
         // To display the pair correctly use something like:
         // Console.WriteLine($"{word} & {pair}");
-        // Each pair of words should displayed on its own line.
-    }
+        // Each pair of words should be displayed on its own line.
 
+        var pair = new HashSet<string> (words); // Instanciate HashSet class
+        foreach (var word in words)
+        {
+            if (pair.Contains(word))
+                Console.WriteLine($"{word} & {word}"); // Display pairs
+            pair.Add(word);
+        }
+        
+    }
+    
     /// <summary>
     /// Read a census file and summarize the degrees (education)
     /// earned by those contained in the file.  The summary
@@ -124,19 +140,28 @@ public static class SetsAndMapsTester {
     /// </summary>
     /// <param name="filename">The name of the file to read</param>
     /// <returns>fixed array of divisors</returns>
+    /// 
     /// #############
     /// # Problem 2 #
     /// #############
-    private static Dictionary<string, int> SummarizeDegrees(string filename) {
+    
+    private static Dictionary<string, int> SummarizeDegrees(string filename) {     
         var degrees = new Dictionary<string, int>();
-        foreach (var line in File.ReadLines(filename)) {
+        
+        var data = "C:\\cse212\\cse212-projects\\week03\\code\\census.txt";
+        foreach (var line in File.ReadLines(data)) {
             var fields = line.Split(",");
             // Todo Problem 2 - ADD YOUR CODE HERE
+            var education = fields[3];  // Get the awarded qualification
+            var NumberOfGrads = int.Parse(fields[4]);    // Get the grade
+            if (degrees.ContainsKey(education))
+                degrees[education] += NumberOfGrads;   // Sum the grades for the awarded qualification
+            else
+                degrees[education] = NumberOfGrads;         
         }
-
         return degrees;
     }
-
+     
     /// <summary>
     /// Determine if 'word1' and 'word2' are anagrams.  An anagram
     /// is when the same letters in a word are re-organized into a 
@@ -153,18 +178,77 @@ public static class SetsAndMapsTester {
     /// Reminder: You can access a letter by index in a string by 
     /// using the [] notation.
     /// </summary>
+    
     /// #############
     /// # Problem 3 #
     /// #############
-    private static bool IsAnagram(string word1, string word2) {
+    private static bool IsAnagram(string word1, string word2) {   
         // Todo Problem 3 - ADD YOUR CODE HERE
-        return false;
+        // Convert strings to char arrays
+        string word1v2 = word1.Replace(" ",string.Empty);  //remove spaces between words
+        string word2v2 = word2.Replace(" ",string.Empty);  //remove spaces between words
+        
+        // Add the spaces free words to respective arrays
+        char[] letters1 = word1v2.ToLower().ToCharArray();  
+        char[] letters2 = word2v2.ToLower().ToCharArray();
+
+        // Create dictionaries to store character frequencies
+        Dictionary<char, int> frequency1 = new Dictionary<char, int>();
+        Dictionary<char, int> frequency2 = new Dictionary<char, int>();
+         
+        // Update character frequencies for word1
+        foreach (char ch in letters1)
+        {
+            if (!frequency1.ContainsKey(ch))
+            {
+                frequency1[ch] = 1;
+            }
+            else
+            {
+                frequency1[ch]++;
+            }
+        }
+
+        // Update character frequencies for word2
+        foreach (char ch in letters2)
+        {
+            if (!frequency2.ContainsKey(ch))
+            {
+                frequency2[ch] = 1;
+            }
+            else
+            {
+                frequency2[ch]++;
+            }
+        }
+
+        return CompareWords(frequency1, frequency2);
     }
 
+    // Compare words string to check if is anagram
+    private static bool CompareWords(Dictionary<char, int> str1, Dictionary<char, int> str2)
+    {
+        if ( str1.Count != str2.Count)  // Compare words length
+        {
+            return false;
+        }
+
+        foreach (var cha in str2)
+        {
+            // Check for character key and value match between 
+            if (!str1.ContainsKey(cha.Key) || str1[cha.Key] != cha.Value)  
+            {
+                return false; 
+            }
+        }
+
+        return true;
+    }
+ 
     /// <summary>
     /// Sets up the maze dictionary for problem 4
     /// </summary>
-    private static Dictionary<ValueTuple<int, int>, bool[]> SetupMazeMap() {
+    private static Dictionary<ValueTuple<int, int>, bool[]> SetupMazeMap() {    
         Dictionary<ValueTuple<int, int>, bool[]> map = new() {
             { (1, 1), new[] { false, true, false, true } },
             { (1, 2), new[] { false, true, true, false } },
@@ -205,7 +289,8 @@ public static class SetsAndMapsTester {
         };
         return map;
     }
-
+    
+    /*
     /// <summary>
     /// This function will read JSON (Javascript Object Notation) data from the 
     /// United States Geological Service (USGS) consisting of earthquake data.
@@ -220,7 +305,7 @@ public static class SetsAndMapsTester {
     /// https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
     /// 
     /// </summary>
-    private static void EarthquakeDailySummary() {
+    private static void EarthquakeDailySummary() {          
         const string uri = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
         using var client = new HttpClient();
         using var getRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
@@ -234,6 +319,16 @@ public static class SetsAndMapsTester {
         // TODO:
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
         // on those classes so that the call to Deserialize above works properly.
-        // 2. Add code below to print out each place a earthquake has happened today and its magitude.
-    }
-}
+        // 2. Add code below to print out each place an earthquake has happened today and its magitude.
+       
+        var loc = featureCollection.TheProperties.Mag;   
+        var magnitud = featureCollection.TheProperties.Place;    
+
+        foreach (var property in Location.TheProperties.Properties)
+        {
+            Console.WriteLine($"Earthquake at Loc: {loc} - Mag: {magnitud}");
+        }
+    } */
+    
+} 
+  

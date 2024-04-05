@@ -1,3 +1,6 @@
+using System.Data;
+using Microsoft.VisualBasic;
+
 /// <summary>
 /// Defines a maze using a dictionary. The dictionary is provided by the
 /// user when the Maze object is created. The dictionary will contain the
@@ -30,6 +33,14 @@ public class Maze {
     /// </summary>
     public void MoveLeft() {
         // FILL IN CODE
+        ValueTuple<int,int> vt = new ValueTuple<int, int> (_currX, _currY);
+
+        //Console.WriteLine(_mazeMap[vt][0]);
+        if(_mazeMap[vt][0]) {
+            _currX = _currX - 1;
+        }
+        else
+            Console.WriteLine("Can't go that way!"); 
     }
 
     /// <summary>
@@ -38,6 +49,13 @@ public class Maze {
     /// </summary>
     public void MoveRight() {
         // FILL IN CODE
+        ValueTuple<int,int> vt = new ValueTuple<int, int> (_currX, _currY);
+
+        if(_mazeMap[vt][1]) {
+            _currX = _currX + 1;
+        }
+        else
+            Console.WriteLine("Can't go that way!"); 
     }
 
     /// <summary>
@@ -46,6 +64,14 @@ public class Maze {
     /// </summary>
     public void MoveUp() {
         // FILL IN CODE
+        ValueTuple<int,int> vt = new ValueTuple<int, int> (_currX, _currY);
+
+        //Console.WriteLine(_mazeMap[vt][2]);
+        if(_mazeMap[vt][2]) {
+            _currY = _currY - 1;
+        }
+        else
+            Console.WriteLine("Can't go that way!"); 
     }
 
     /// <summary>
@@ -54,6 +80,13 @@ public class Maze {
     /// </summary>
     public void MoveDown() {
         // FILL IN CODE
+        ValueTuple<int,int> vt = new ValueTuple<int, int> (_currX, _currY);
+
+        if(_mazeMap[vt][3]) {
+            _currY = _currY + 1;
+            }
+        else
+            Console.WriteLine("Can't go that way!"); 
     }
 
     public void ShowStatus() {
