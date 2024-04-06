@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel.Design;
 
 public class LinkedList : IEnumerable<int> {
     private Node? _head;
@@ -28,6 +29,18 @@ public class LinkedList : IEnumerable<int> {
     /// </summary>
     public void InsertTail(int value) {
         // TODO Problem 1
+        // Create new node
+        Node newNode = new Node(value);
+        // If the list is empty, then point both head and tail to the new node.
+        if (_tail is null) {  
+            _head = newNode;  // Point head to new node
+            _tail = newNode;  // // Point tail to new node
+        }
+        else {
+            newNode.Prev = _tail;  // Connect new node to the previous tail
+            _tail.Next = newNode;  // Connect the previous tail to the new node
+            _tail = newNode;       // Update the tail to point to the new node
+        }
     }
 
 
@@ -56,6 +69,14 @@ public class LinkedList : IEnumerable<int> {
     /// </summary>
     public void RemoveTail() {
         // TODO Problem 2
+        if (_head == _tail) {
+            _head = null;
+            _tail = null;
+        }
+        else {
+            _tail!.Prev!.Next = null; 
+            _tail = _tail.Prev;
+        }
     }
 
     /// <summary>
@@ -94,13 +115,47 @@ public class LinkedList : IEnumerable<int> {
     /// </summary>
     public void Remove(int value) {
         // TODO Problem 3
+        {
+        Node firstNode = new Node(value);
+        // Start at the beginning (the head)
+        var current = _head;
+        
+        // Loop until we have reached the end (null)
+        while (current != null && current.Data != value)  // Check if head is not null and current value is not same as value
+            current = current.Next;     // Move forward
+        if( current == null)  // Check if current node is not missing.
+            return;
+        // Check if current node is the head node
+        if(current == _head) {     
+            RemoveHead();   // If it is remove it.
+            return;
+        }
+        // Check if current node is the tail node
+        if(current == _tail) {  // If it is the tail remove it.
+            RemoveTail();
+            return;
+        }
+        current.Next!.Prev = current.Prev;  // Set the prev of the node after current to the node before current. 
+        current.Prev!.Next = current.Next;  // Set the next of the node before current to the node after current.
+        return;
+        }
     }
 
     /// <summary>
-    /// Search for all instances of 'oldValue' and replace the value to 'newValue'.
+    /// Search for all instances of 'oldValue' and replace the value with 'newValue'.
     /// </summary>
     public void Replace(int oldValue, int newValue) {
         // TODO Problem 4
+        var current = _head;
+
+        while(current != null)
+        {
+            // Search for all instances of 'oldValue'
+            if (current.Data == oldValue){
+                current.Data = newValue; // Replace the value with 'newValue'
+            }
+            current = current.Next;  // Continue forward
+        }
     }
 
     /// <summary>
@@ -116,7 +171,7 @@ public class LinkedList : IEnumerable<int> {
     /// </summary>
     public IEnumerator<int> GetEnumerator() {
         var curr = _head; // Start at the beginning since this is a forward iteration.
-        while (curr is not null) {
+        while (curr != null) {
             yield return curr.Data; // Provide (yield) each item to the user
             curr = curr.Next; // Go forward in the linked list
         }
@@ -127,7 +182,11 @@ public class LinkedList : IEnumerable<int> {
     /// </summary>
     public IEnumerable Reverse() {
         // TODO Problem 5
-        yield return 0; // replace this line with the correct yield return statement(s)
+        var curr = _tail;  // / Start at the end/tail
+        while (curr != null) {
+            yield return curr.Data;  // yield each item to the user
+            curr = curr.Prev;   // Go backward in the linked list
+        }
     }
 
     public override string ToString() {
