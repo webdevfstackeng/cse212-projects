@@ -15,6 +15,7 @@ public class BinarySearchTree : IEnumerable<int> {
         // If the list is not empty, then only head will be affected.
         else
             _root.Insert(value);
+
     }
 
     /// <summary>
@@ -66,7 +67,14 @@ public class BinarySearchTree : IEnumerable<int> {
 
     private void TraverseBackward(Node? node, List<int> values) {
         // TODO Problem 3
+            if (node is not null) {
+                TraverseBackward(node.Left, values);
+                values.Add(node.Data);
+                TraverseBackward(node.Right, values);
+            }
+
     }
+    //}
 
     /// <summary>
     /// Get the height of the tree
@@ -80,4 +88,5 @@ public class BinarySearchTree : IEnumerable<int> {
     public override string ToString() {
         return "<Bst>{" + string.Join(", ", this) + "}";
     }
+    
 }

@@ -8,6 +8,10 @@ public class Node {
     }
 
     public void Insert(int value) {
+
+        if (value == this.Data) {
+            return;
+        }
         if (value < Data) {
             // Insert to the left
             if (Left is null)
@@ -26,7 +30,11 @@ public class Node {
 
     public bool Contains(int value) {
         // TODO Start Problem 2
-        return false;
+        if(Data != value)
+            return false;
+        if(Data == value)
+            return true;
+
     }
 
     public int GetHeight() {

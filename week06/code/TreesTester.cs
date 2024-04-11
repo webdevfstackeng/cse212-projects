@@ -18,14 +18,14 @@ public static class TreesTester {
         tree.Insert(1);
         tree.Insert(6);
         Console.WriteLine(tree.ToString()); // 1, 3, 4, 5, 6, 7, 10
-
+    ///*
         Console.WriteLine("\n=========== PROBLEM 2 TESTS ===========");
         Console.WriteLine(tree.Contains(3)); // True
         Console.WriteLine(tree.Contains(2)); // False
         Console.WriteLine(tree.Contains(7)); // True
         Console.WriteLine(tree.Contains(6)); // True
         Console.WriteLine(tree.Contains(9)); // False
-
+    /*
         Console.WriteLine("\n=========== PROBLEM 3 TESTS ===========");
         foreach (var value in tree.Reverse()) {
             Console.WriteLine(value); // 10, 7, 6, 5, 4, 3, 1
@@ -99,4 +99,5 @@ public static class TreesTester {
     private static void InsertMiddle(int[] sortedNumbers, int first, int last, BinarySearchTree bst) {
         // TODO Start Problem 5
     }
-}
+    */
+}}
