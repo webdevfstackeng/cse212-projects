@@ -23,9 +23,9 @@ public class BinarySearchTree : IEnumerable<int> {
     /// </summary>
     /// <param name="value">The value to look for</param>
     /// <returns>true if found, otherwise false</returns>
-    public bool Contains(int value) {
-        return _root != null && _root.Contains(value);
-    }
+    // public bool Contains(int value) {
+    //     return _root != null && _root.Contains(value);
+    // }
 
     /// <summary>
     /// Yields all values in the tree
@@ -67,14 +67,14 @@ public class BinarySearchTree : IEnumerable<int> {
 
     private void TraverseBackward(Node? node, List<int> values) {
         // TODO Problem 3
+        // Iterate backwards
             if (node is not null) {
-                TraverseBackward(node.Left, values);
+                TraverseBackward(node.Right, values);  
                 values.Add(node.Data);
-                TraverseBackward(node.Right, values);
-            }
+                TraverseBackward(node.Left, values);   
 
+            }
     }
-    //}
 
     /// <summary>
     /// Get the height of the tree
